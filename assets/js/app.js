@@ -7,7 +7,7 @@
 const App = (() => {
 
   const STORAGE_KEY = "cart";
-  const API_BASE = window.API_BASE || "YOUR_APPS_SCRIPT_WEB_APP_URL?action=";
+  const API_BASE = window.API_BASE || "https://script.google.com/macros/s/AKfycbzUs227I1_uMAXkInKx0ekwBNOlb6h5mmWXoyrGfyAN1wrTacJuDGndS2utiMSlooQm/exec";
 
   function apiUrl(action, params = {}) {
     const url = new URL(API_BASE, window.location.href);
