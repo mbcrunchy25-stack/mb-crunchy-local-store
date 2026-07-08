@@ -1,0 +1,247 @@
+/* =====================================================
+   MB Crunchy Commerce v2
+   File: assets/css/style.css
+   ===================================================== */
+
+:root{
+  --primary:#b5121b;
+  --primary-dark:#931018;
+  --accent:#ffb347;
+  --bg:#faf7f2;
+  --surface:#ffffff;
+  --text:#222;
+  --muted:#666;
+  --border:#e8e8e8;
+  --radius:12px;
+  --shadow:0 4px 14px rgba(0,0,0,.08);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+header{
+  background:var(--primary);
+  color:#fff;
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+nav{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+}
+
+nav a:hover{
+  color:var(--accent);
+}
+
+.container{
+  width:min(1200px,92%);
+  margin:auto;
+  padding:24px 0;
+}
+
+.hero{
+  padding:70px 20px;
+  text-align:center;
+  background:linear-gradient(135deg,var(--primary),#ff8c42);
+  color:#fff;
+}
+
+.hero h1{
+  font-size:clamp(2rem,5vw,3.4rem);
+  margin-bottom:16px;
+}
+
+.hero p{
+  max-width:700px;
+  margin:0 auto 25px;
+}
+
+.btn,
+button{
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  padding:12px 20px;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.btn:hover,
+button:hover{
+  background:var(--primary-dark);
+}
+
+.btn-outline{
+  background:#fff;
+  color:var(--primary);
+  border:2px solid var(--primary);
+}
+
+.grid{
+  display:grid;
+  gap:22px;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+}
+
+.card{
+  background:var(--surface);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  background:#efefef;
+}
+
+.card-body{
+  padding:16px;
+}
+
+.card h3{
+  margin-bottom:8px;
+}
+
+.price{
+  margin:10px 0;
+}
+
+.price del{
+  color:var(--muted);
+  margin-right:8px;
+}
+
+.discount{
+  color:#1f8b2f;
+  font-weight:bold;
+}
+
+.toolbar{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:11px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:15px;
+}
+
+.summary,
+.item,
+.form-card{
+  background:var(--surface);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.item{
+  display:grid;
+  grid-template-columns:90px 1fr auto;
+  gap:16px;
+  padding:16px;
+  margin-bottom:16px;
+  align-items:center;
+}
+
+.item img{
+  width:90px;
+  height:90px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+.summary{
+  padding:20px;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:20px;
+  background:#eaf8ea;
+  color:#1f8b2f;
+  font-size:12px;
+  font-weight:bold;
+}
+
+footer{
+  margin-top:50px;
+  background:#222;
+  color:#fff;
+  text-align:center;
+  padding:28px 20px;
+}
+
+.text-center{
+  text-align:center;
+}
+
+.mt-1{margin-top:10px;}
+.mt-2{margin-top:20px;}
+.mt-3{margin-top:30px;}
+
+@media (max-width:768px){
+
+  header{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .item{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .toolbar{
+    flex-direction:column;
+  }
+
+}
