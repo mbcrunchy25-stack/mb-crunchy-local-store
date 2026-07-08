@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Successful | MB Crunchy</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+.success-box{
+max-width:700px;
+margin:60px auto;
+background:#fff;
+padding:40px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
+text-align:center;
+}
+.icon{
+font-size:70px;
+color:#28a745;
+margin-bottom:20px;
+}
+.actions{
+display:flex;
+gap:15px;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:30px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<div><strong>MB Crunchy</strong></div>
+<nav>
+<a href="index.html">Home</a>
+<a href="products.html">Products</a>
+<a href="contact.html">Contact</a>
+</nav>
+</header>
+
+<div class="container">
+
+<div class="success-box">
+
+<div class="icon">✅</div>
+
+<h1>Order Placed Successfully!</h1>
+
+<p>Thank you for ordering from <strong>MB Crunchy</strong>.</p>
+
+<p>Your order has been submitted successfully.</p>
+
+<p><strong>Order ID:</strong> <span id="orderId">--</span></p>
+
+<p>Please keep your UPI transaction reference until your order is confirmed.</p>
+
+<p>Our team will review your payment and confirm your order on WhatsApp shortly.</p>
+
+<div class="actions">
+<a class="btn" href="products.html">Continue Shopping</a>
+<a class="btn" id="waBtn" target="_blank">Chat on WhatsApp</a>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+<p>&copy; 2026 MB Crunchy</p>
+</footer>
+
+<script>
+const params=new URLSearchParams(window.location.search);
+const order=params.get("order") || "N/A";
+
+document.getElementById("orderId").textContent=order;
+
+document.getElementById("waBtn").href=
+"https://wa.me/917842032879?text="+
+encodeURIComponent(
+"Hello MB Crunchy, I have placed Order "+order+". Please confirm my order."
+);
+</script>
+
+</body>
+</html>

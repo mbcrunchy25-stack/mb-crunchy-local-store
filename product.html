@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Product Details | MB Crunchy</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header>
+  <div><strong>MB Crunchy</strong></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="cart.html">Cart (<span id="cartCount">0</span>)</a>
+  </nav>
+</header>
+
+<div class="container">
+
+<div id="product" class="card" style="display:none;">
+  <img id="image" src="" alt="Product">
+  <div class="card-body">
+    <h1 id="name"></h1>
+    <p id="description"></p>
+
+    <div class="price">
+      <del id="mrp"></del>
+      <strong id="price"></strong>
+      <span class="discount" id="discount"></span>
+    </div>
+
+    <div style="margin:15px 0;">
+      <label>Quantity</label>
+      <input type="number" id="qty" value="1" min="1" style="width:90px;">
+    </div>
+
+    <button id="addBtn">Add to Cart</button>
+
+    <hr style="margin:25px 0;">
+
+    <h3>Product Information</h3>
+
+    <table style="width:100%;border-collapse:collapse">
+      <tr><td><strong>Category</strong></td><td id="category"></td></tr>
+      <tr><td><strong>Weight</strong></td><td id="weight"></td></tr>
+      <tr><td><strong>Stock</strong></td><td id="stock"></td></tr>
+    </table>
+
+    <p style="margin-top:20px;">
+      Freshly packed by <strong>MB Crunchy</strong>.<br>
+      Store as recommended on the product label.
+    </p>
+  </div>
+</div>
+
+<div id="loading" class="text-center mt-3">
+Loading Product...
+</div>
+
+</div>
+
+<footer>
+  <p>&copy; MB Crunchy</p>
+</footer>
+
+<script>
+const API_BASE="https://script.google.com/macros/s/AKfycbzUs227I1_uMAXkInKx0ekwBNOlb6h5mmWXoyrGfyAN1wrTacJuDGndS2utiMSlooQm/exec";
+</script>
+
+<script src="assets/js/app.js"></script>
+
+<script>
+
+const params=new URLSearchParams(location.search);
+const id=params.get("id");
+
+async function loadProduct(){
+
+ try{
+
+   App.showLoader();
+
+   const product=await App.get("product",{id:id});
+
+   document.getElementById("loading").style.display="none";
+   document.getElementById("product").style.display="block";
+
+   image.src="assets/images/"+(product.image||"placeholder.webp");
+   name.textContent=product.name;
+   description.textContent=product.description||"";
+   mrp.textContent="₹"+product.mrp;
+   price.textContent=" ₹"+product.price;
+   discount.textContent=product.discountPercent+"% OFF";
+   category.textContent=product.categoryId;
+   weight.textContent=product.weight||"-";
+   stock.textContent=product.stock;
+
+   addBtn.onclick=function(){
+
+      const qty=parseInt(document.getElementById("qty").value)||1;
+
+      App.addToCart(product.id,qty);
+
+   };
+
+ }catch(err){
+
+   document.getElementById("loading").innerHTML=
+   "<h2>Product not found.</h2>";
+
+   console.error(err);
+
+ }finally{
+
+   App.hideLoader();
+
+ }
+
+}
+
+loadProduct();
+
+</script>
+
+</body>
+</html>
