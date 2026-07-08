@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Product Details</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<div><strong>MB Crunchy</strong></div>
+
+<nav>
+
+<a href="index.html">Home</a>
+
+<a href="products.html">Products</a>
+
+<a href="cart.html">
+
+Cart (<span id="cartCount">0</span>)
+
+</a>
+
+</nav>
+
+</header>
+
+<div class="container">
+
+<div id="loading">
+
+Loading Product...
+
+</div>
+
+<div id="product" style="display:none;">
+
+<img id="image" width="350">
+
+<h1 id="name"></h1>
+
+<p id="description"></p>
+
+<h2>
+
+<del id="mrp"></del>
+
+<strong id="price"></strong>
+
+</h2>
+
+<p id="discount"></p>
+
+<p>
+
+Stock :
+
+<span id="stock"></span>
+
+</p>
+
+<p>
+
+Weight :
+
+<span id="weight"></span>
+
+</p>
+
+<input
+
+type="number"
+
+id="qty"
+
+value="1"
+
+min="1">
+
+<button id="addBtn">
+
+Add To Cart
+
+</button>
+
+</div>
+
+</div>
+
+<footer>
+
+© MB Crunchy
+
+</footer>
+
+<script>
+
+window.API_BASE="https://script.google.com/macros/s/AKfycbzUs227I1_uMAXkInKx0ekwBNOlb6h5mmWXoyrGfyAN1wrTacJuDGndS2utiMSlooQm/exec
+";
+
+</script>
+
+<script src="assets/js/app.js"></script>
+
+<script>
+
+const id=new URLSearchParams(location.search).get("id");
+
+async function loadProduct(){
+
+try{
+
+App.showLoader();
+
+const product=await App.get("product",{
+
+id:id
+
+});
+
+document.getElementById("loading").style.display="none";
+
+document.getElementById("product").style.display="block";
+
+document.getElementById("image").src=
+
+"assets/images/"+(product.image||"placeholder.webp");
+
+document.getElementById("name").textContent=
+
+product.name;
+
+document.getElementById("description").textContent=
+
+product.description || "";
+
+document.getElementById("mrp").textContent=
+
+"₹"+product.mrp;
+
+document.getElementById("price").textContent=
+
+" ₹"+product.price;
+
+document.getElementById("discount").textContent=
+
+product.discountPercent+"% OFF";
+
+document.getElementById("stock").textContent=
+
+product.stock;
+
+document.getElementById("weight").textContent=
+
+product.weight || "-";
+
+document.getElementById("addBtn").onclick=function(){
+
+const qty=parseInt(
+
+document.getElementById("qty").value
+
+);
+
+App.addToCart(product.id,qty);
+
+};
+
+}catch(err){
+
+document.getElementById("loading").innerHTML=
+
+"<h2>Product Not Found</h2>";
+
+console.log(err);
+
+}finally{
+
+App.hideLoader();
+
+}
+
+}
+
+loadProduct();
+
+</script>
+
+</body>
+
+</html>
