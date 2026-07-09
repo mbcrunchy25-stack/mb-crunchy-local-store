@@ -106,8 +106,7 @@ Add To Cart
 
 <script>
 
-window.API_BASE="https://script.google.com/macros/s/AKfycbzUs227I1_uMAXkInKx0ekwBNOlb6h5mmWXoyrGfyAN1wrTacJuDGndS2utiMSlooQm/exec
-";
+window.API_BASE="https://script.google.com/macros/s/AKfycbzUs227I1_uMAXkInKx0ekwBNOlb6h5mmWXoyrGfyAN1wrTacJuDGndS2utiMSlooQm/exec";
 
 </script>
 
@@ -133,9 +132,19 @@ document.getElementById("loading").style.display="none";
 
 document.getElementById("product").style.display="block";
 
-document.getElementById("image").src=
+const img = document.getElementById("image");
 
-"assets/images/"+(product.image||"placeholder.webp");
+console.log(product);
+
+img.src = "assets/images/" + product.image;
+
+img.onerror = function () {
+    console.log("Image not found:", img.src);
+};
+
+img.onload = function () {
+    console.log("Image loaded:", img.src);
+};
 
 document.getElementById("name").textContent=
 
