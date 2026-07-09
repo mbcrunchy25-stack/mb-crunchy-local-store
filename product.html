@@ -1,204 +1,235 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | MB Crunchy</title>
 
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Product Details</title>
-
-<link rel="stylesheet" href="assets/css/style.css">
-
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
 
 <header>
 
-<div><strong>MB Crunchy</strong></div>
+    <div>
+        <strong>MB Crunchy</strong>
+    </div>
 
-<nav>
-
-<a href="index.html">Home</a>
-
-<a href="products.html">Products</a>
-
-<a href="cart.html">
-
-Cart (<span id="cartCount">0</span>)
-
-</a>
-
-</nav>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="cart.html">
+            Cart (<span id="cartCount">0</span>)
+        </a>
+    </nav>
 
 </header>
 
+
 <div class="container">
 
-<div id="loading">
+    <div id="loading" class="text-center">
+        <h2>Loading Product...</h2>
+    </div>
 
-Loading Product...
+    <div id="product" class="card" style="display:none;padding:25px;">
+
+        <div style="
+            display:grid;
+            grid-template-columns:350px 1fr;
+            gap:30px;
+            align-items:start;
+        ">
+
+            <div>
+
+                <img
+                    id="image"
+                    src="assets/images/placeholder.webp"
+                    alt="Product"
+                    style="
+                        width:100%;
+                        border-radius:10px;
+                        object-fit:cover;
+                    ">
+
+            </div>
+
+            <div>
+
+                <h1 id="name"></h1>
+
+                <p id="description"></p>
+
+                <div class="price" style="margin-top:20px;">
+
+                    <del id="mrp"></del>
+
+                    <strong id="price"
+                            style="font-size:30px;color:#b5121b;">
+                    </strong>
+
+                    <div
+                        id="discount"
+                        class="discount"
+                        style="margin-top:6px;">
+                    </div>
+
+                </div>
+
+                <hr style="margin:20px 0;">
+
+                <p>
+                    <strong>Stock :</strong>
+                    <span id="stock"></span>
+                </p>
+
+                <p>
+                    <strong>Weight :</strong>
+                    <span id="weight"></span>
+                </p>
+
+                <br>
+
+                <label>
+                    <strong>Quantity</strong>
+                </label>
+
+                <input
+                    type="number"
+                    id="qty"
+                    min="1"
+                    value="1"
+                    style="width:120px;">
+
+                <br><br>
+
+                <button id="addBtn">
+                    Add To Cart
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-<div id="product" style="display:none;">
-
-<img id="image" width="350">
-
-<h1 id="name"></h1>
-
-<p id="description"></p>
-
-<h2>
-
-<del id="mrp"></del>
-
-<strong id="price"></strong>
-
-</h2>
-
-<p id="discount"></p>
-
-<p>
-
-Stock :
-
-<span id="stock"></span>
-
-</p>
-
-<p>
-
-Weight :
-
-<span id="weight"></span>
-
-</p>
-
-<input
-
-type="number"
-
-id="qty"
-
-value="1"
-
-min="1">
-
-<button id="addBtn">
-
-Add To Cart
-
-</button>
-
-</div>
-
-</div>
 
 <footer>
 
-© MB Crunchy
+    © MB Crunchy
 
 </footer>
 
+
+
 <script>
 
-window.API_BASE="https://script.google.com/macros/s/AKfycbzUs227I1_uMAXkInKx0ekwBNOlb6h5mmWXoyrGfyAN1wrTacJuDGndS2utiMSlooQm/exec";
+window.API_BASE =
+"https://script.google.com/macros/s/AKfycbzUs227I1_uMAXkInKx0ekwBNOlb6h5mmWXoyrGfyAN1wrTacJuDGndS2utiMSlooQm/exec";
 
 </script>
 
+
 <script src="assets/js/app.js"></script>
+
 
 <script>
 
-const id=new URLSearchParams(location.search).get("id");
+const id = new URLSearchParams(window.location.search).get("id");
 
-async function loadProduct(){
+async function loadProduct() {
 
-try{
+    if (!id) {
 
-App.showLoader();
+        document.getElementById("loading").innerHTML =
+            "<h2>Invalid Product ID.</h2>";
 
-const product=await App.get("product",{
+        return;
+    }
 
-id:id
+    try {
 
-});
+        App.showLoader();
 
-document.getElementById("loading").style.display="none";
+        console.log("Loading Product:", id);
 
-document.getElementById("product").style.display="block";
+        const product = await App.get("product", {
+            id: id
+        });
 
-const img = document.getElementById("image");
+        console.log(product);
 
-console.log(product);
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("product").style.display = "block";
 
-img.src = "assets/images/" + product.image;
+        const image = document.getElementById("image");
 
-img.onerror = function () {
-    console.log("Image not found:", img.src);
-};
+        image.src =
+            "assets/images/" +
+            (product.image || "placeholder.webp");
 
-img.onload = function () {
-    console.log("Image loaded:", img.src);
-};
+        image.onerror = function () {
 
-document.getElementById("name").textContent=
+            console.log("Image Missing");
 
-product.name;
+            this.src =
+                "assets/images/placeholder.webp";
 
-document.getElementById("description").textContent=
+        };
 
-product.description || "";
+        document.getElementById("name").textContent =
+            product.name;
 
-document.getElementById("mrp").textContent=
+        document.getElementById("description").textContent =
+            product.description || "";
 
-"₹"+product.mrp;
+        document.getElementById("mrp").textContent =
+            "₹" + product.mrp;
 
-document.getElementById("price").textContent=
+        document.getElementById("price").textContent =
+            " ₹" + product.price;
 
-" ₹"+product.price;
+        document.getElementById("discount").textContent =
+            product.discountPercent + "% OFF";
 
-document.getElementById("discount").textContent=
+        document.getElementById("stock").textContent =
+            product.stock;
 
-product.discountPercent+"% OFF";
+        document.getElementById("weight").textContent =
+            product.weight || "-";
 
-document.getElementById("stock").textContent=
+        document.getElementById("addBtn").onclick = function () {
 
-product.stock;
+            const qty =
+                parseInt(
+                    document.getElementById("qty").value
+                ) || 1;
 
-document.getElementById("weight").textContent=
+            App.addToCart(product.id, qty);
 
-product.weight || "-";
+        };
 
-document.getElementById("addBtn").onclick=function(){
+    }
 
-const qty=parseInt(
+    catch (err) {
 
-document.getElementById("qty").value
+        console.error(err);
 
-);
+        document.getElementById("loading").innerHTML =
+            "<h2>Product Not Found</h2>";
 
-App.addToCart(product.id,qty);
+    }
 
-};
+    finally {
 
-}catch(err){
+        App.hideLoader();
 
-document.getElementById("loading").innerHTML=
-
-"<h2>Product Not Found</h2>";
-
-console.log(err);
-
-}finally{
-
-App.hideLoader();
-
-}
+    }
 
 }
 
@@ -207,5 +238,4 @@ loadProduct();
 </script>
 
 </body>
-
 </html>
